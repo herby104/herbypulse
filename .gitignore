@@ -1,0 +1,26 @@
+# 🔐 Fichiers sensibles (IMPORTANT)
+config.php
+.env
+
+# 🔐 Logs système
+*.log
+
+# 🔐 Cache PHP
+cache/
+tmp/
+
+# 🔐 Dossiers système
+.DS_Store
+Thumbs.db
+
+# 🔐 IDE (VS Code / PHPStorm)
+.vscode/
+.idea/
+
+# 🔐 Vendor (si Composer est utilisé)
+vendor/
+
+# 🔐 Backup fichiers
+*.sql
+*.zip
+*.rar
