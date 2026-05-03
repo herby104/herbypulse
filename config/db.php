@@ -1,36 +1,56 @@
 <?php
 
-if (!class_exists("Database")) {
+if (class_exists("Database")) {
+    return;
+}
 
-    class Database {
+class Database {
 
-        private $host = "localhost";
-        private $dbname = "portefolio_db";
-        private $username = "root";
-        private $password = "";
+    private $host;
+    private $dbname;
+    private $username;
+    private $password;
+    private $pdo;
 
-        private $pdo;
+    public function __construct() {
 
-        public function connect() {
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
-            if ($this->pdo === null) {
+            $this->host = "localhost";
+            $this->dbname = "portefolio_db";
+            $this->username = "root";
+            $this->password = "";
 
-                try {
-                    $this->pdo = new PDO(
-                        "mysql:host={$this->host};dbname={$this->dbname};charset=utf8",
-                        $this->username,
-                        $this->password
-                    );
+        } else {
 
-                    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-                } catch (PDOException $e) {
-                    die("Erreur de connexion : " . $e->getMessage());
-                }
-            }
-
-            return $this->pdo;
+            $this->host = "sql305.infinityfree.com";
+            $this->dbname = "if0_41821187_portefolio_db";
+            $this->username = "if0_41821187";
+            $this->password = "badt8vq9vd";
         }
+    }
+
+    public function connect() {
+
+        if ($this->pdo === null) {
+
+            try {
+                $this->pdo = new PDO(
+                    "mysql:host={$this->host};dbname={$this->dbname};charset=utf8",
+                    $this->username,
+                    $this->password,
+                    [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                    ]
+                );
+
+            } catch (PDOException $e) {
+                error_log($e->getMessage());
+                die("Erreur base de données");
+            }
+        }
+
+        return $this->pdo;
     }
 }

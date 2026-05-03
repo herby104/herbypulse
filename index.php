@@ -2,6 +2,13 @@
 session_start();
 
 /* =========================
+   DEBUG (À SUPPRIMER EN PROD)
+========================= */
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+/* =========================
    CONTROLLERS
 ========================= */
 require_once __DIR__ . "/app/controllers/PageController.php";
@@ -53,7 +60,9 @@ $adminRoutes = [
     'admin_edit',
     'admin_update',
     'admin_delete',
-    'admin_clients'
+    'admin_clients',
+    'export_clients',
+    'export_devis'
 ];
 
 if (in_array($page, $adminRoutes)) {
@@ -83,14 +92,14 @@ if (in_array($page, $adminRoutes)) {
             break;
 
         case 'admin_clients':
-            $adminController->clientsPage(); // ✔ IMPORTANT (FIX DESIGN)
+            $adminController->clientsPage();
             break;
 
-            case 'export_clients':
+        case 'export_clients':
             $adminController->exportClientsCSV();
             break;
-            
-            case 'export_devis':
+
+        case 'export_devis':
             $adminController->exportDevisPDF();
             break;
     }
@@ -102,6 +111,7 @@ if (in_array($page, $adminRoutes)) {
    API CLIENT PUBLIC
 ========================= */
 if ($page === "add_client") {
+
     $clientController = new ClientController();
     $clientController->store();
     exit;
